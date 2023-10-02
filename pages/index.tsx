@@ -22,14 +22,14 @@ export default function Home() {
         for(const token of Object.keys(pricesConfig)){
             const port = pricesConfig[token]
             if (!sockets[port]){
-                sockets[port] = SocketIOClient('http://127.0.0.1:' + port)
+                sockets[port] = SocketIOClient('localhost:' + port)
                 setSockets({...sockets})
             }
         }
         for(const signal of Object.keys(signalsConfig)){
             const port = signalsConfig[signal]
             if (!sockets[port]){
-                sockets[port] = SocketIOClient('http://127.0.0.1:' + port)
+                sockets[port] = SocketIOClient('localhost:' + port)
                 setSockets({...sockets})
             }
         }
