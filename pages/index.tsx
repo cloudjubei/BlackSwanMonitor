@@ -49,6 +49,7 @@ export default function Home() {
             const socket = sockets[port]
             if (socket) {
                 socket.on(token, (price) => {
+                    prices[token] = price
                     setPrices({...prices})
                 })
             }
