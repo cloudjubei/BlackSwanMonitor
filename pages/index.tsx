@@ -19,17 +19,18 @@ export default function Home() {
     const [socketsInitialised, setSocketsInitialised] = useState(false)
 
     useEffect(() => {
+        const host = process.env.NEXT_PUBLIC_HOST  ?? "http://localhost" 
         for(const token of Object.keys(pricesConfig)){
             const port = pricesConfig[token]
             if (!sockets[port]){
-                sockets[port] = SocketIOClient('https://localhost:' + port)
+                sockets[port] = SocketIOClient(host + ':' + port)
                 setSockets({...sockets})
             }
         }
         for(const signal of Object.keys(signalsConfig)){
             const port = signalsConfig[signal]
             if (!sockets[port]){
-                sockets[port] = SocketIOClient('https://localhost:' + port)
+                sockets[port] = SocketIOClient(host + ':' + port)
                 setSockets({...sockets})
             }
         }
