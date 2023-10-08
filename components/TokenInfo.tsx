@@ -23,7 +23,7 @@ export const TokenInfo = ({ token, id, className, price, indicatorsToShow, indic
   }, [indicators, indicatorsToShow])
 
   const signalViews = useMemo(() => {
-    return signals && Object.keys(signals[token]).map(name => 
+    return signals && Object.keys(signals).map(name => 
         <SignalInfo key={'signal-' + token + "-" + name} name={name} action={signals[name]} />
     )
   }, [signals])
