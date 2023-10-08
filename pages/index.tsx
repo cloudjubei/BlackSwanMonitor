@@ -3,8 +3,14 @@ import { ArrowBackIos, AttachMoney } from '@mui/icons-material'
 import SocketIOClient from "socket.io-client";
 import { PriceInfo } from '../components/PriceInfo';
 import { SignalInfo } from '../components/SignalInfo';
+import { IndicatorInfo } from '../components/IndicatorInfo';
+import { TokenInfo } from '../components/TokenInfo';
 
 const pricesConfig = {
+    'BTCUSDT': 3002,
+    'BTCFDUSD': 3002
+}
+const indicatorsConfig = {
     'BTCUSDT': 3002,
     'BTCFDUSD': 3002
 }
@@ -12,8 +18,25 @@ const signalsConfig = {
     'manual': 3003,
     'aggregator': 3005
 }
+const indicatorsToShow = [
+    'bollinger20High',
+    'bollinger20Mid',
+    'bollinger20Low',
+    'rsi9',
+    'rsi14',
+    'rsi30',
+    'ema20',
+    'ema50',
+    'ema200',
+    'macdSignal9',
+    'macd9',
+    'williams14',
+    'williams30'
+]
+
 export default function Home() {
     const [prices, setPrices] = useState({});
+    const [indicators, setIndicators] = useState({});
     const [signals, setSignals] = useState({});
     const [sockets, setSockets] = useState({})
     const [socketsInitialised, setSocketsInitialised] = useState(false)
@@ -27,6 +50,18 @@ export default function Home() {
                 setSockets({...sockets})
             }
         }
+        setPrices({...prices})
+        setSignals({...signals})
+        setIndicators({...indicators})
+
+        for(const token of Object.keys(indicatorsConfig)){
+            const port = indicatorsConfig[token]
+            if (!sockets[port]){
+                sockets[port] = SocketIOClient(host + ':' + port)
+                setSockets({...sockets})
+            }
+        }
+
         for(const signal of Object.keys(signalsConfig)){
             const port = signalsConfig[signal]
             if (!sockets[port]){
@@ -54,6 +89,18 @@ export default function Home() {
                 })
             }
         }
+
+        for(const token of Object.keys(indicatorsConfig)){
+            const port = indicatorsConfig[token]
+            const socket = sockets[port]
+            if (socket) {
+                socket.on('indicators-' + token, (indicator) => {
+                    indicators[token] = indicator
+                    setIndicators({...indicators})
+                })
+            }
+        }
+
         for(const signal of Object.keys(signalsConfig)){
             const port = signalsConfig[signal]
             const socket = sockets[port]
@@ -61,17 +108,11 @@ export default function Home() {
                 for(const token of Object.keys(pricesConfig)){
                     socket.on(token, (actionData) => {
                         if (typeof actionData === 'number' || actionData instanceof Number){
-                            if (!signals[signal]){
-                                signals[signal] = {}
-                            }
-                            signals[signal][token] = actionData
+                            signals[token][signal] = actionData
                             setSignals({...signals})
                         }else{
                             const { action, identifier } = actionData
-                            if (!signals[identifier]){
-                                signals[identifier] = {}
-                            }
-                            signals[identifier][token] = action
+                            signals[token][identifier] = action
                             setSignals({...signals})
                         }
                     })
@@ -81,47 +122,16 @@ export default function Home() {
         setSocketsInitialised(true)
     }, [sockets])
 
-    const priceItems = useMemo(() => {
-        return Object.keys(prices).map(token => 
-            <PriceInfo key={'price-' + token} token={token} price={prices[token]} />
-        )
-    }, [prices])
-
-    const signalItems = useMemo(() => {
+    const tokenItems = useMemo(() => {
         return Object.keys(pricesConfig).map(token => 
-            <article key={"signals-" + token}  className="section">
-                <header>
-                    <ArrowBackIos className="icon"/>
-                    <h1 className="title">
-                        <span className="title__top">{token}</span>
-                        <span className="title__bottom">Signals</span>
-                    </h1>
-                </header>
-                <main className="section__items">
-                    {Object.keys(signals).map(name => 
-                        <SignalInfo key={'signal-' + name + "-" + token} name={name} action={signals[name][token]} />
-                    )}
-                </main>
-            </article>
+            <TokenInfo token={token} price={prices[token]} indicatorsToShow={indicatorsToShow} indicators={indicators[token]} signals={signals[token]}  />
         )
-    }, [signals])
-
+    }, [prices, indicators, signals])
+    
     return (
         <div>
             <h1> Monitor </h1>
-            <article key="prices" className="section">
-                <header>
-                    <AttachMoney className="icon"/>
-                    <h1 className="title">
-                        <span className="title__top">Prices</span>
-                        <span className="title__bottom">Binance</span>
-                    </h1>
-                </header>
-                <main className="section__items">
-                    {priceItems}
-                </main>
-            </article>
-            {signalItems}
+            {tokenItems}
         </div>
     );
 }
