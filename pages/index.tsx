@@ -134,9 +134,9 @@ export default function Home() {
 
     const tokenItems = useMemo(() => {
         return Object.keys(pricesConfig).map(token => 
-            <TokenInfo token={token} price={prices[token]} indicatorsToShow={indicatorsToShow} indicators={indicators[token]} signals={signals[token]} signalsToShow={signalsToShow}  />
+            <TokenInfo token={token} price={prices[token]} indicatorsToShow={indicatorsToShow} indicators={indicators} signals={signals} signalsToShow={signalsToShow}  />
         )
-    }, [prices, indicators, signals])
+    }, [prices, indicatorsToShow, indicators, signals, signalsToShow])
     
     return (
         <div>

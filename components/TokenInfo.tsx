@@ -18,14 +18,14 @@ interface Props {
 export const TokenInfo = ({ token, id, className, price, indicatorsToShow, indicators, signalsToShow, signals }: Props) =>
 {
   const indicatorViews = useMemo(() => {
-    return indicators && indicatorsToShow.map(name => 
-      <IndicatorInfo key={'indicator-' + token + "-" + name} name={name} value={indicators[name]} />
+    return indicators && indicators[token] && indicatorsToShow.map(name => 
+      <IndicatorInfo key={'indicator-' + token + "-" + name} name={name} value={indicators[token][name]} />
     )
   }, [indicators, indicatorsToShow])
 
   const signalViews = useMemo(() => {
-    return signals && signalsToShow.map(name => 
-        <SignalInfo key={'signal-' + token + "-" + name} name={name} action={signals[name]} />
+    return signals && signals[token]  && signalsToShow.map(name => 
+        <SignalInfo key={'signal-' + token + "-" + name} name={name} action={signals[token][name]} />
     )
   }, [signals, signalsToShow])
 
