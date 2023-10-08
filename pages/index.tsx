@@ -44,6 +44,9 @@ export default function Home() {
     useEffect(() => {
         const host = process.env.NEXT_PUBLIC_HOST  ?? "http://localhost" 
         for(const token of Object.keys(pricesConfig)){
+            prices[token] = 0
+            indicators[token] = {}
+            signals[token] = {}
             const port = pricesConfig[token]
             if (!sockets[port]){
                 sockets[port] = SocketIOClient(host + ':' + port)
