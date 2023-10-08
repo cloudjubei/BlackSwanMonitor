@@ -14,10 +14,6 @@ const indicatorsConfig = {
     'BTCUSDT': 3002,
     'BTCFDUSD': 3002
 }
-const signalsConfig = {
-    'manual': 3003,
-    'aggregator': 3005
-}
 const indicatorsToShow = [
     'bollinger20High',
     'bollinger20Mid',
@@ -32,6 +28,17 @@ const indicatorsToShow = [
     'macd9',
     'williams14',
     'williams30'
+]
+const signalsConfig = {
+    'manual': 3003,
+    'aggregator': 3005
+}
+const signalsToShow = [
+    'manual',
+    'average1',
+    'min1',
+    'max1',
+    'constant_offset1'
 ]
 
 export default function Home() {
@@ -127,7 +134,7 @@ export default function Home() {
 
     const tokenItems = useMemo(() => {
         return Object.keys(pricesConfig).map(token => 
-            <TokenInfo token={token} price={prices[token]} indicatorsToShow={indicatorsToShow} indicators={indicators[token]} signals={signals[token]}  />
+            <TokenInfo token={token} price={prices[token]} indicatorsToShow={indicatorsToShow} indicators={indicators[token]} signals={signals[token]} signalsToShow={signalsToShow}  />
         )
     }, [prices, indicators, signals])
     

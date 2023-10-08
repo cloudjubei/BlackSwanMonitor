@@ -9,12 +9,13 @@ interface Props {
   id?: string
   className?: string
   price: any
-  indicatorsToShow: string[],
+  indicatorsToShow: string[]
   indicators?: any
+  signalsToShow: string[]
   signals?: any
 }
 
-export const TokenInfo = ({ token, id, className, price, indicatorsToShow, indicators, signals }: Props) =>
+export const TokenInfo = ({ token, id, className, price, indicatorsToShow, indicators, signalsToShow, signals }: Props) =>
 {
   const indicatorViews = useMemo(() => {
     return indicators && indicatorsToShow.map(name => 
@@ -23,23 +24,25 @@ export const TokenInfo = ({ token, id, className, price, indicatorsToShow, indic
   }, [indicators, indicatorsToShow])
 
   const signalViews = useMemo(() => {
-    return signals && Object.keys(signals).map(name => 
+    return signals && signalsToShow.map(name => 
         <SignalInfo key={'signal-' + token + "-" + name} name={name} action={signals[name]} />
     )
-  }, [signals])
+  }, [signals, signalsToShow])
 
   return <article key={"token-"+token} className="section">
     <header>
-        <AttachMoney className="icon"/>
-        <h1 className="title">
-            <span className="title__top">{token}</span>
-            <span className="title__bottom">Binance</span>
-        </h1>
+      <AttachMoney className="icon"/>
+      <h1 className="title">
+        <span className="title__top">{token}</span>
+        <span className="title__bottom">Binance</span>
+      </h1>
     </header>
     <main className="section__items">
-        <PriceInfo key={'price-' + token} token={token} price={price} />
-        {indicatorViews}
-        {signalViews}
+      <PriceInfo key={'price-' + token} token={token} price={price} />
+      <span>Indicators</span>
+      {indicatorViews}
+      <span>Signals</span>
+      {signalViews}
     </main>
   </article>
 }

@@ -58,6 +58,16 @@
 	  padding: 15px 15px 20px;
 	  display: grid;
 	  row-gap: 8px;
+
+		& > span {
+			display: block;
+			font-size: 20px;
+			font-weight: 700;
+			letter-spacing: 6.5px;
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
 	}
 	
 	&__item {
