@@ -1,7 +1,14 @@
+.intervals_container {
+  display: flex;
+  flex-wrap: nowrap; 
+  overflow: auto;
+}
 .section {
+	display: inline-block;
 	width: 600px;
 	border-radius: 12px;
 	box-shadow: 0 0 40px -10px rgba(0, 0, 0, .4);
+	margin-right: 10px;
 	
 	header {
 	  --start: 15%;

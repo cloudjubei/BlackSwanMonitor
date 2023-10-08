@@ -1,17 +1,20 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { ArrowBackIos, AttachMoney } from '@mui/icons-material'
-import SocketIOClient from "socket.io-client";
-import { PriceInfo } from '../components/PriceInfo';
-import { SignalInfo } from '../components/SignalInfo';
-import { IndicatorInfo } from '../components/IndicatorInfo';
-import { TokenInfo } from '../components/TokenInfo';
+import React, { useEffect, useMemo, useState } from 'react'
+import SocketIOClient from "socket.io-client"
+import { TokenInfo } from '../components/TokenInfo'
 
+const intervals = [
+    '1s',
+    '1m',
+    '5m',
+    '15m',
+    '1d'
+]
 const pricesConfig = {
-    'BTCUSDT': 3002,
+    // 'BTCUSDT': 3002,
     'BTCFDUSD': 3002
 }
 const indicatorsConfig = {
-    'BTCUSDT': 3002,
+    // 'BTCUSDT': 3002,
     'BTCFDUSD': 3002
 }
 const indicatorsToShow = [
@@ -51,15 +54,21 @@ export default function Home() {
     useEffect(() => {
         const host = process.env.NEXT_PUBLIC_HOST  ?? "http://localhost" 
         for(const token of Object.keys(pricesConfig)){
-            prices[token] = 0
+            prices[token] = {}
             indicators[token] = {}
             signals[token] = {}
+            for(const interval of intervals){
+                prices[token][interval] = {}
+                indicators[token][interval] = {}
+            }
             const port = pricesConfig[token]
             if (!sockets[port]){
                 sockets[port] = SocketIOClient(host + ':' + port)
                 setSockets({...sockets})
             }
         }
+        console.log('prices')
+        console.log(prices)
         setPrices({...prices})
         setSignals({...signals})
         setIndicators({...indicators})
@@ -93,10 +102,12 @@ export default function Home() {
             const port = pricesConfig[token]
             const socket = sockets[port]
             if (socket) {
-                socket.on(token, (price) => {
-                    prices[token] = price
-                    setPrices({...prices})
-                })
+                for(const interval of intervals){
+                    socket.on(token + '-' + interval, (kline) => {
+                        prices[token][interval] = kline
+                        setPrices({...prices})
+                    })
+                }
             }
         }
 
@@ -104,10 +115,12 @@ export default function Home() {
             const port = indicatorsConfig[token]
             const socket = sockets[port]
             if (socket) {
-                socket.on('indicators-' + token, (indicator) => {
-                    indicators[token] = indicator
-                    setIndicators({...indicators})
-                })
+                for(const interval of intervals){
+                    socket.on('indicators-' + token + '-' + interval, (indicator) => {
+                        indicators[token][interval] = indicator
+                        setIndicators({...indicators})
+                    })
+                }
             }
         }
 
@@ -134,7 +147,11 @@ export default function Home() {
 
     const tokenItems = useMemo(() => {
         return Object.keys(pricesConfig).map(token => 
-            <TokenInfo token={token} price={prices[token]} indicatorsToShow={indicatorsToShow} indicators={indicators} signals={signals} signalsToShow={signalsToShow}  />
+            <div key={'token-' + token} className='intervals_container'>
+                {(intervals.map(interval =>
+                    prices[token] && <TokenInfo token={token} interval={interval} price={prices[token][interval]} indicatorsToShow={indicatorsToShow} indicators={indicators} signals={signals} signalsToShow={signalsToShow}  />
+                ))}
+            </div>
         )
     }, [prices, indicatorsToShow, indicators, signals, signalsToShow])
     
