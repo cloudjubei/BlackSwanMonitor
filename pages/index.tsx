@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import SocketIOClient from "socket.io-client"
 import { TokenInfo } from '../components/TokenInfo'
-import TokenIndicatorsModel from '../models/TokenIndicatorsModel'
-import PriceKlineModel from '../models/PriceKlineModel'
-import SignalModel from '../models/SignalModel'
+import PriceKlineModel from '../src/commons/models/price/PriceKlineModel.dto'
+import TokenIndicatorsModel from '../src/commons/models/indicators/TokenIndicatorsModel.dto'
+import SignalModel from '../src/commons/models/signal/SignalModel.dto'
 
 const intervals = [
     '1s',

@@ -12,6 +12,14 @@
     "exportAndDeploy": "npm run export && npm run deploy"
   },
   "dependencies": {
+    "@types/ws": "8.5.5",
+    "@types/cron": "^2.0.0",
+    "@types/express": "^4.17.13",
+    "@types/jest": "27.5.0",
+    "@types/joi": "^17.2.3",
+    "@types/multer": "^1.4.7",
+    "@types/node": "20.3.3",
+    "@types/supertest": "^2.0.11",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.11",
