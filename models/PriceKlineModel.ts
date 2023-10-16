@@ -4,8 +4,8 @@ export default class PriceKlineModel
     tokenPair: string
     interval: string
 
-    timestamp_open: string = "0"
-    timestamp_close: string = "0"
+    timestamp_open: number = 0
+    timestamp_close: number = 0
     price_open: string = "0"
     price_close: string = "0"
     price_low: string = "0"

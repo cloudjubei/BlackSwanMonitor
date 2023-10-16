@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import SocketIOClient from "socket.io-client"
 import { TokenInfo } from '../components/TokenInfo'
+import TokenIndicatorsModel from '../models/TokenIndicatorsModel'
+import PriceKlineModel from '../models/PriceKlineModel'
+import SignalModel from '../models/SignalModel'
 
 const intervals = [
     '1s',
@@ -32,16 +35,14 @@ const indicatorsToShow = [
     'williams14',
     'williams30'
 ]
+
 const signalsConfig = {
-    'manual': 3003,
     'aggregator': 3005
 }
 const signalsToShow = [
-    'manual',
-    'average1',
-    'min1',
-    'max1',
-    'constant_offset1'
+    "bollingerHighSignal", 
+    "bollingerLowSignal", "bollingerHighWithRSI30Overbought", "bollingerLowWithRSI30Oversold", 
+    "rsi30Overbought", "rsi30Oversold", "rsi9Overbought", "rsi9Oversold",
 ]
 
 export default function Home() {
@@ -58,8 +59,13 @@ export default function Home() {
             indicators[token] = {}
             signals[token] = {}
             for(const interval of intervals){
-                prices[token][interval] = {}
-                indicators[token][interval] = {}
+                prices[token][interval] = new PriceKlineModel(token, interval)
+                indicators[token][interval] = new TokenIndicatorsModel(token, interval, "0", 0, {})
+
+                signals[token][interval] = {}
+                for(const signal of signalsToShow){
+                    signals[token][interval][signal] = new SignalModel(token, interval, 0, 0)
+                }
             }
             const port = pricesConfig[token]
             if (!sockets[port]){
@@ -67,8 +73,6 @@ export default function Home() {
                 setSockets({...sockets})
             }
         }
-        console.log('prices')
-        console.log(prices)
         setPrices({...prices})
         setSignals({...signals})
         setIndicators({...indicators})
@@ -128,32 +132,31 @@ export default function Home() {
             const port = signalsConfig[signal]
             const socket = sockets[port]
             if (socket) {
-                for(const token of Object.keys(pricesConfig)){
-                    socket.on(token, (actionData) => {
-                        if (typeof actionData === 'number' || actionData instanceof Number){
-                            signals[token][signal] = actionData
-                            setSignals({...signals})
-                        }else{
-                            const { action, identifier } = actionData
-                            signals[token][identifier] = action
-                            setSignals({...signals})
+                for(const signalId of signalsToShow){
+                    for(const token of Object.keys(pricesConfig)){
+                        for(const interval of intervals){
+                            socket.on(signalId + '-' + token + '-' + interval, (actionData) => {
+                                signals[token][interval][signalId] = actionData
+                                setSignals({...signals})
+                            })
                         }
-                    })
+                    }
                 }
             }
         }
         setSocketsInitialised(true)
     }, [sockets])
 
-    const tokenItems = useMemo(() => {
-        return Object.keys(pricesConfig).map(token => 
-            <div key={'token-' + token} className='intervals_container'>
-                {(intervals.map(interval =>
-                    prices[token] && <TokenInfo token={token} interval={interval} price={prices[token][interval]} indicatorsToShow={indicatorsToShow} indicators={indicators} signals={signals} signalsToShow={signalsToShow}  />
-                ))}
-            </div>
-        )
-    }, [prices, indicatorsToShow, indicators, signals, signalsToShow])
+    const tokenItems = Object.keys(pricesConfig).map(token => 
+        <div key={'token-' + token} className='intervals_container'>
+            {(intervals.map(interval =>
+                prices[token] && prices[token][interval] && 
+                indicators[token] && indicators[token][interval] && 
+                signals[token] && signals[token][interval] && 
+                <TokenInfo token={token} interval={interval} price={prices[token][interval]} indicators={indicators[token][interval]} indicatorsToShow={indicatorsToShow} signals={signals[token][interval]} signalsToShow={signalsToShow}  />
+            ))}
+        </div>
+    )
     
     return (
         <div>

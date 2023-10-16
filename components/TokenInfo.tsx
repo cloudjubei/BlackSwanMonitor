@@ -1,37 +1,35 @@
 import React, { useMemo } from "react"
-import { AttachMoney, CompareArrows } from '@mui/icons-material'
+import { AttachMoney } from '@mui/icons-material'
 import { PriceInfo } from "./PriceInfo"
 import { IndicatorInfo } from "./IndicatorInfo"
 import { SignalInfo } from "./SignalInfo"
 import PriceKlineModel from "../models/PriceKlineModel"
+import TokenIndicatorsModel from "../models/TokenIndicatorsModel"
+import SignalModel from "../models/SignalModel"
 
 interface Props {
   token: string
   interval: string
-  id?: string
-  className?: string
   price: PriceKlineModel
   indicatorsToShow: string[]
-  indicators?: any
+  indicators: TokenIndicatorsModel
   signalsToShow: string[]
-  signals?: any
+  signals: { [index: string]: SignalModel}
 }
 
-export const TokenInfo = ({ token, interval, id, className, price, indicatorsToShow, indicators, signalsToShow, signals }: Props) =>
+export const TokenInfo = ({ token, interval, price, indicatorsToShow, indicators, signalsToShow, signals }: Props) =>
 {
-  const indicatorViews = useMemo(() => {
-    return indicators && indicators[token] && indicators[token][interval] && indicatorsToShow.map(name => 
-      <IndicatorInfo key={'indicator-' + token + "-" + interval + "-" + name} name={name} value={indicators[token][interval][name]} />
-    )
-  }, [token, interval, indicators, indicatorsToShow])
+  const keyId = useMemo(() => token + "-" + interval, [token, interval])
+  
+  const indicatorViews = indicatorsToShow.map(name => 
+    <IndicatorInfo key={'indicator-' + keyId + "-" + name} name={name} value={parseFloat(indicators.indicators[name])} />
+  )
 
-  const signalViews = useMemo(() => {
-    return interval == '1s' && signals && signals[token] && signalsToShow.map(name => 
-        <SignalInfo key={'signal-' + token + "-" + name} name={name} action={signals[token][name]} />
-    )
-  }, [token, interval, signals, signalsToShow])
+  const signalViews = signalsToShow.map(name => 
+    signals[name] && <SignalInfo key={'signal-' + keyId + "-" + name} name={name} signal={signals[name]} />
+  )
 
-  return <article key={"token-"+token+"-interval"} className="section">
+  return <article key={"info-" + keyId} className="section">
     <header>
       <AttachMoney className="icon"/>
       <h1 className="title">
@@ -40,7 +38,7 @@ export const TokenInfo = ({ token, interval, id, className, price, indicatorsToS
       </h1>
     </header>
     <main className="section__items">
-      <PriceInfo key={'price-' + token} token={token} price={price.price_close} />
+      <PriceInfo key={'price-' + keyId} token={token} price={price.price_close} />
       <span>Indicators</span>
       {indicatorViews}
       <span>Signals</span>
