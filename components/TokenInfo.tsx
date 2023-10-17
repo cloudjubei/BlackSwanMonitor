@@ -3,9 +3,9 @@ import { AttachMoney } from '@mui/icons-material'
 import { PriceInfo } from "./PriceInfo"
 import { IndicatorInfo } from "./IndicatorInfo"
 import { SignalInfo } from "./SignalInfo"
-import PriceKlineModel from "../models/PriceKlineModel"
-import TokenIndicatorsModel from "../models/TokenIndicatorsModel"
-import SignalModel from "../models/SignalModel"
+import PriceKlineModel from "../src/commons/models/price/PriceKlineModel.dto"
+import TokenIndicatorsModel from "../src/commons/models/indicators/TokenIndicatorsModel.dto"
+import SignalModel from "../src/commons/models/signal/SignalModel.dto"
 
 interface Props {
   token: string
@@ -38,11 +38,11 @@ export const TokenInfo = ({ token, interval, price, indicatorsToShow, indicators
       </h1>
     </header>
     <main className="section__items">
-      <PriceInfo key={'price-' + keyId} token={token} price={price.price_close} />
-      <span>Indicators</span>
-      {indicatorViews}
+      <PriceInfo key={'price-' + keyId} token={token} price={price.price} />
       <span>Signals</span>
       {signalViews}
+      <span>Indicators</span>
+      {indicatorViews}
     </main>
   </article>
 }
