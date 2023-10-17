@@ -6,6 +6,7 @@ import { SignalInfo } from "./SignalInfo"
 import PriceKlineModel from "../src/commons/models/price/PriceKlineModel.dto"
 import TokenIndicatorsModel from "../src/commons/models/indicators/TokenIndicatorsModel.dto"
 import SignalModel from "../src/commons/models/signal/SignalModel.dto"
+import { SIGNAL_NAMES } from "../src/config"
 
 interface Props {
   token: string
@@ -26,7 +27,7 @@ export const TokenInfo = ({ token, interval, price, indicatorsToShow, indicators
   )
 
   const signalViews = signalsToShow.map(name => 
-    signals[name] && <SignalInfo key={'signal-' + keyId + "-" + name} name={name} signal={signals[name]} />
+    signals[name] && <SignalInfo key={'signal-' + keyId + "-" + name} name={SIGNAL_NAMES[name]} signal={signals[name]} />
   )
 
   return <article key={"info-" + keyId} className="section">

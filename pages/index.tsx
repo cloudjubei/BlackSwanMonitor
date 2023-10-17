@@ -4,7 +4,7 @@ import { TokenInfo } from '../components/TokenInfo'
 import PriceKlineModel from '../src/commons/models/price/PriceKlineModel.dto'
 import TokenIndicatorsModel from '../src/commons/models/indicators/TokenIndicatorsModel.dto'
 import SignalModel from '../src/commons/models/signal/SignalModel.dto'
-import { CONFIG_PRICES, CONFIG_SIGNALS, INDICATORS, INTERVALS, SIGNALS, TOKENS } from '../src/config'
+import { CONFIG_PRICES, CONFIG_SIGNALS, INDICATORS, INTERVALS, SIGNALS, SIGNAL_NAMES, TOKENS } from '../src/config'
 import { ConfigConnectionInputModelUtils } from '../src/commons/models/config/ConfigConnectionInputModel.dto'
 
 export default function Home() {
@@ -174,7 +174,7 @@ export default function Home() {
                         {SIGNALS.map((item, index) => (
                             <div className="checklist-item" key={index}>
                                 <input value={item} type="checkbox" onChange={handleSignalCheck} checked={signalsToShow.includes(item)} />
-                                <span>{item}</span>
+                                <span>{SIGNAL_NAMES[item]}</span>
                             </div>
                         ))}
                     </div>

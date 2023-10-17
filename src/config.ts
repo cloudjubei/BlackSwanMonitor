@@ -39,3 +39,13 @@ export const SIGNALS : string[] = [
     "bollingerLowSignal", "bollingerHighWithRSI30Overbought", "bollingerLowWithRSI30Oversold", 
     "rsi30Overbought", "rsi30Oversold", "rsi9Overbought", "rsi9Oversold",
 ]
+export const SIGNAL_NAMES : { [signal:string]: string } = {
+    "bollingerHighWithRSI30Overbought" : "Core Sell Signal",
+    "bollingerLowWithRSI30Oversold" : "Core Buy Signal",
+    "bollingerHighSignal" : "Bollinger Overbought",
+    "bollingerLowSignal" : "Bollinger Oversold",
+    "rsi30Overbought" : "RSI 30 Overbought",
+    "rsi9Overbought" : "RSI 9 Overbought",
+    "rsi30Oversold" : "RSI 30 Oversold",
+    "rsi9Oversold" : "RSI 9 Oversold",
+}
