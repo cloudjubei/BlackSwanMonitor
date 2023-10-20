@@ -8,13 +8,13 @@ import { CONFIG_PRICES, CONFIG_SIGNALS, INDICATORS, INTERVALS, SIGNALS, SIGNAL_N
 import { ConfigConnectionInputModelUtils } from '../src/commons/models/config/ConfigConnectionInputModel.dto'
 
 export default function Home() {
-    const [prices, setPrices] = useState<{[token:string]:{[interval:string] : PriceKlineModel}}>({});
-    const [tokensToShow, setTokensToShow] = useState(TOKENS);
-    const [intervalsToShow, setIntervalsToShow] = useState(INTERVALS);
-    const [indicators, setIndicators] = useState<{[token:string]:{[interval:string] : TokenIndicatorsModel}}>({});
-    const [indicatorsToShow, setIndicatorsToShow] = useState(INDICATORS);
-    const [signals, setSignals] = useState<{[token:string]:{[interval:string]:{[signal:string] : SignalModel}}}>({});
-    const [signalsToShow, setSignalsToShow] = useState(SIGNALS);
+    const [prices, setPrices] = useState<{[token:string]:{[interval:string] : PriceKlineModel}}>({})
+    const [tokensToShow, setTokensToShow] = useState(TOKENS)
+    const [intervalsToShow, setIntervalsToShow] = useState(INTERVALS)
+    const [indicators, setIndicators] = useState<{[token:string]:{[interval:string] : TokenIndicatorsModel}}>({})
+    const [indicatorsToShow, setIndicatorsToShow] = useState(INDICATORS)
+    const [signals, setSignals] = useState<{[token:string]:{[interval:string]:{[signal:string] : SignalModel}}}>({})
+    const [signalsToShow, setSignalsToShow] = useState(SIGNALS)
     const [sockets, setSockets] = useState<{[id:string]:SocketIOClient.Socket}>({})
     const [socketsInitialised, setSocketsInitialised] = useState(false)
     const [menuShowing, setMenuShowing] = useState(false)
