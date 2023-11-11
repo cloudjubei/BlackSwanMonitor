@@ -10,12 +10,14 @@ export const INTERVALS : string[] = [
 export const TOKENS : string[] = [
     'BTCUSDT',
     'BTCFDUSD',
-    'XRPUSDT'
+    'XRPUSDT',
+    'XRPFDUSD'
 ]
 export const CONFIG_PRICES : {[token:string] : ConfigConnectionInputModel } = {
     'BTCUSDT': { "host": "http://localhost", "port": 3002 },
     'BTCFDUSD': { "host": "http://localhost", "port": 3002 },
-    'XRPUSDT': { "host": "http://localhost", "port": 3002 }
+    'XRPUSDT': { "host": "http://localhost", "port": 3002 },
+    'XRPFDUSD': { "host": "http://localhost", "port": 3002 }
 }
 export const INDICATORS : string[] = [
     'bollinger20High',
