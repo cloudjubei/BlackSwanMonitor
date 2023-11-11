@@ -1,6 +1,6 @@
 import React, { useMemo } from "react"
 import { ArrowUpward, ArrowDownward, CompareArrows } from '@mui/icons-material'
-import SignalModel from "../models/SignalModel"
+import SignalModel from "../src/commons/models/signal/SignalModel.dto"
 
 interface Props {
   name: string
