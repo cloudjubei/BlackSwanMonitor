@@ -41,8 +41,12 @@ export const INDICATORS : string[] = [
     'williams14',
     'williams30',
     "dump1", 
+    "dump3", 
     "dump5",
+    "dump10",
     "pump1", 
+    "pump3", 
+    "pump5",
     "pump10"
 ]
 
@@ -53,7 +57,7 @@ export const SIGNALS : string[] = [
     "bollingerHighSignal", 
     "bollingerLowSignal", "bollingerHighWithRSI30Overbought", "bollingerLowWithRSI30Oversold", 
     "rsi30Overbought", "rsi30Oversold", "rsi9Overbought", "rsi9Oversold",
-    "dump1_00_01", "pump1_00_01", "dump3_00_05", "pump3_00_05", "dump5_00_10", "pump5_00_10"
+    "dump1_00_01", "pump1_00_01", "dump3_00_02", "pump3_00_02", "dump5_00_05", "pump5_00_05", "dump10_00_10", "pump10_00_10", 
 ]
 export const SIGNAL_NAMES : { [signal:string]: string } = {
     "bollingerHighWithRSI30Overbought" : "Core Sell Signal",
@@ -66,8 +70,10 @@ export const SIGNAL_NAMES : { [signal:string]: string } = {
     "rsi9Oversold" : "RSI 9 Oversold",
     "dump1_00_01" : "Dump 1candle <0.01%",
     "pump1_00_01" : "Pump 1candle >0.01%",
-    "dump3_00_05" : "Dump 3candles <0.05%",
-    "pump3_00_05" : "Pump 3candles >0.05%",
-    "dump5_00_10" : "Dump 5candles <0.1%",
-    "pump5_00_10" : "Pump 5candles >0.1%"
+    "dump3_00_02" : "Dump 3candles <0.02%",
+    "pump3_00_02" : "Pump 3candles >0.02%",
+    "dump5_00_05" : "Dump 5candles <0.05%",
+    "pump5_00_05" : "Pump 5candles >0.05%",
+    "dump10_00_10" : "Dump 5candles <0.1%",
+    "pump10_00_10" : "Pump 5candles >0.1%"
 }
