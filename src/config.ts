@@ -7,6 +7,7 @@ export const INTERVALS : string[] = [
     '15m'
 ]
 export const TOKENS : string[] = [
+    'BTCFDUSD',
     'BTCUSDT',
     'BTCTUSD',
     'BTCUSDC',
@@ -15,6 +16,7 @@ export const TOKENS : string[] = [
     'XRPUSDT'
 ]
 export const CONFIG_PRICES : {[token:string] : ConfigConnectionInputModel } = {
+    'BTCFDUSD': { "host": "http://localhost", "port": 3002 },
     'BTCUSDT': { "host": "http://localhost", "port": 3002 },
     'BTCTUSD': { "host": "http://localhost", "port": 3002 },
     'BTCUSDC': { "host": "http://localhost", "port": 3002 },
