@@ -3,20 +3,33 @@ import ConfigConnectionInputModel from "./commons/models/config/ConfigConnection
 export const INTERVALS : string[] = [
     '1s',
     '1m',
-    '5m',
-    '15m'
+    '15m',
+    '1h'
 ]
 export const TOKENS : string[] = [
-    "BTCFDUSD",
     "BTCUSDT",
     "ETHUSDT",
-    "ETHFDUSD"
+    "DOGEUSDT",
+    "ADAUSDT",
+    "XRPUSDT",
+    "SOLUSDT",
+    "PEPEUSDT"
 ]
 export const CONFIG_PRICES : {[token:string] : ConfigConnectionInputModel } = {
-    'BTCFDUSD': { "host": "http://localhost", "port": 3002 },
-    'BTCUSDT': { "host": "http://localhost", "port": 3002 },
-    'ETHUSDT': { "host": "http://localhost", "port": 3002 },
-    'ETHFDUSD': { "host": "http://localhost", "port": 3002 }
+    // 'BTCUSDT': { "host": "http://localhost", "port": 3002 },
+    // 'ETHUSDT': { "host": "http://localhost", "port": 3002 },
+    // 'DOGEUSDT': { "host": "http://localhost", "port": 3002 },
+    // 'ADAUSDT': { "host": "http://localhost", "port": 3002 },
+    // 'XRPUSDT': { "host": "http://localhost", "port": 3002 },
+    // 'SOLUSDT': { "host": "http://localhost", "port": 3002 },
+    // 'PEPEUSDT': { "host": "http://localhost", "port": 3002 }
+    'BTCUSDT': { "host": "http://52.29.230.39", "port": 3002 },
+    'ETHUSDT': { "host": "http://52.29.230.39", "port": 3002 },
+    'DOGEUSDT': { "host": "http://52.29.230.39", "port": 3002 },
+    'ADAUSDT': { "host": "http://52.29.230.39", "port": 3002 },
+    'XRPUSDT': { "host": "http://52.29.230.39", "port": 3002 },
+    'SOLUSDT': { "host": "http://52.29.230.39", "port": 3002 },
+    'PEPEUSDT': { "host": "http://52.29.230.39", "port": 3002 }
 }
 export const INDICATORS : string[] = [
     "atr5", "atr8", "atr13", "atr30",
@@ -36,9 +49,11 @@ export const INDICATORS : string[] = [
 ]
 
 export const CONFIG_SIGNALS : {[signal:string] : ConfigConnectionInputModel } = {
-    'aggregator': { "host": "http://localhost", "port": 3005 },
+    // 'aggregator': { "host": "http://localhost", "port": 3005 },
+    'aggregator': { "host": "http://52.29.230.39", "port": 3005 },
 }
 export const SIGNALS : string[] = [
+    "ai_model1", "ai_model2", "ai_model3", "ai_model4",
     "bollingerHighSignal", 
     "bollingerLowSignal", "bollingerHighWithRSI30Overbought", "bollingerLowWithRSI30Oversold", 
     "rsi30Overbought", "rsi30Oversold", "rsi9Overbought", "rsi9Oversold",
@@ -46,6 +61,10 @@ export const SIGNALS : string[] = [
     "lwStrategyUpSignal", "lwStrategyDownSignal", 
 ]
 export const SIGNAL_NAMES : { [signal:string]: string } = {
+    "ai_model1" : "AI Model #1 (sec->min)",
+    "ai_model2" : "AI Model #2 (min->min)",
+    "ai_model3" : "AI Model #3 (min->h)",
+    "ai_model4" : "AI Model #4 (h->h)",
     "bollingerHighWithRSI30Overbought" : "Core Sell Signal",
     "bollingerLowWithRSI30Oversold" : "Core Buy Signal",
     "bollingerHighSignal" : "Bollinger Overbought",
